@@ -5,6 +5,7 @@ import matplotlib
 
 from util import *
 
+#figure 5m
 matplotlib.rcParams['pdf.fonttype'] = 42
 matplotlib.rcParams['ps.fonttype'] = 42
 prob = [[0.7, 0.3], [0.3, 0.7]]
