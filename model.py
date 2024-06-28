@@ -1,6 +1,5 @@
 import numpy as np
 import logging
-from layer import *
 import scipy.special as special
 from util import *
 from scipy.special import expit
@@ -125,8 +124,8 @@ class TwoTimeScaleNeuralAgent(object):
 		self.thalamus[0] = 2 * self.a * self.tau + 4
 		self.thalamus[1] = 4
 
-		self.thalamus[0] = 2 * self.a+ 2
-		self.thalamus[1] = 2
+		# self.thalamus[0] = 2 * self.a+ 2
+		# self.thalamus[1] = 2
 
 
 		if self.d2:

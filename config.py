@@ -13,7 +13,7 @@ def add_cmd_argument(parser):
 	parser.add_argument('--max_trial', type=int, default=1000)
 	parser.add_argument('--logging_interval', type=int, default=1)
 	parser.add_argument('--dt', type=int, default=0.005)
-	parser.add_argument('--experiment_num', type=int, default=36)
+	parser.add_argument('--experiment_num', type=int, default=1)
 	
 
 	
