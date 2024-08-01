@@ -45,7 +45,9 @@ def guassian_convolve(inputs, std):
 
 		def conv(mu):
 			np.exp(-0.5 * (x-mu) ** 2 / std ** 2) / (np.sqrt(2 * np.pi) * std)
-		np.vectorize(conv)(inputs)
+		return np.sum(np.vectorize(conv)(inputs))
+
+	return
 
 
 

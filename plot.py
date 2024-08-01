@@ -14,7 +14,7 @@ matplotlib.rcParams['pdf.fonttype'] = 42
 matplotlib.rcParams['ps.fonttype'] = 42
 
 
-num = 8
+num = 9
 
 sns.set_theme(context = "paper", style = "ticks")
 #sns.set_theme("ticks", palette=None, context = "paper")
@@ -156,6 +156,13 @@ def plot(num):
 	       xytext=(i+width * 3 /2, y_max + 1), textcoords='data',
 	       arrowprops=dict(arrowstyle="-", ec='#aaaaaa',
 	                       connectionstyle="bar,fraction=0.2"))
+			res = scipy.stats.shapiro(regret_data[0][i])
+			print("shapiro", res.pvalue)
+			res = scipy.stats.shapiro(regret_data[1][i])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(regret_data[2][i])
+			print("shapiro",res.pvalue)
+
 			z, p = scipy.stats.kruskal(regret_data[0][i], regret_data[1][i], regret_data[2][i])
 			print("kruskal wallis p value for regret is {}".format(p))
 			
@@ -228,6 +235,13 @@ def plot(num):
 	       xytext=(i+width * 3 /2, y_max + 1), textcoords='data',
 	       arrowprops=dict(arrowstyle="-", ec='#aaaaaa',
 	                       connectionstyle="bar,fraction=0.2"))
+			res = scipy.stats.shapiro(accuracy_data[0][i])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(accuracy_data[1][i])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(accuracy_data[2][i])
+			print("shapiro",res.pvalue)
+
 			z, p = scipy.stats.kruskal(accuracy_data[0][i], accuracy_data[1][i], accuracy_data[2][i])
 			print("kruskal wallis p value for accuracy is {}".format(p))
 			
@@ -295,6 +309,12 @@ def plot(num):
 			ax.boxplot(accuracy_data, sym = '', widths = 0.7, showcaps = False, 
 	                     vert=True,  # vertical box alignment
 	                     labels=label_data)  # will be used to label x-ticks
+			res = scipy.stats.shapiro(accuracy_data[0])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(accuracy_data[1])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(accuracy_data[2])
+			print("shapiro",res.pvalue)
 			
 			z, p = scipy.stats.kruskal(accuracy_data[0], accuracy_data[1], accuracy_data[2])
 			print("kruskal wallis p value for accuracy is {}".format(p))
@@ -333,6 +353,14 @@ def plot(num):
 			ax.boxplot(regret_data, sym = '', widths = 0.7, showcaps = False, 
 	                     vert=True,  # vertical box alignment
 	                     labels=label_data)  # will be used to label x-ticks
+
+			res = scipy.stats.shapiro(regret_data[0])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(regret_data[1])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(regret_data[2])
+			print("shapiro",res.pvalue)
+			
 			
 			z, p = scipy.stats.kruskal(regret_data[0], regret_data[1], regret_data[2])
 			print("kruskal wallis p value for regret is {}".format(p))
@@ -430,6 +458,11 @@ def plot(num):
 	       xytext=(i+width * 3 /2, y_max + 1), textcoords='data',
 	       arrowprops=dict(arrowstyle="-", ec='#aaaaaa',
 	                       connectionstyle="bar,fraction=0.2"))
+			res = scipy.stats.shapiro(data["regret"][agents[0]][i, :, -1])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(data["regret"][agents[1]][i, :, -1])
+			print("shapiro",res.pvalue)
+
 			z, p = scipy.stats.mannwhitneyu(data["regret"][agents[0]][i, :, -1], data["regret"][agents[1]][i, :, -1])
 			print(delta[i], p)
 			ax.text(i + width, y_max + 2, stars(p),horizontalalignment='center',verticalalignment='center')
@@ -499,6 +532,10 @@ def plot(num):
 	       xytext=(i+width * 3 /2, y_max + 1), textcoords='data',
 	       arrowprops=dict(arrowstyle="-", ec='#aaaaaa',
 	                       connectionstyle="bar,fraction=0.2"))
+			res = scipy.stats.shapiro(accuracy[agents[0]][i])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(accuracy[agents[1]][i])
+			print("shapiro",res.pvalue)
 			z, p = scipy.stats.mannwhitneyu(accuracy[agents[0]][i], accuracy[agents[1]][i])
 			print(delta[i], p)
 			ax.text(i + width, y_max, stars(p),horizontalalignment='center',verticalalignment='center')
@@ -809,6 +846,10 @@ def plot(num):
 	       xytext=(i+width * 1.5, y_max + 1), textcoords='data',
 	       arrowprops=dict(arrowstyle="-", ec='#aaaaaa',
 	                       connectionstyle="bar,fraction=0.2"))
+			res = scipy.stats.shapiro(data["regret"][agents[0]][i, :, -1])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(data["regret"][agents[1]][i, :, -1])
+			print("shapiro",res.pvalue)
 			z, p = scipy.stats.mannwhitneyu(data["regret"][agents[0]][i, :, -1], data["regret"][agents[1]][i, :, -1])
 			print( delta[i],p)
 			ax.text(i + width, y_max + 2, stars(p),horizontalalignment='center',verticalalignment='center')
@@ -875,6 +916,10 @@ def plot(num):
 	       xytext=(i+width * 3 /2, y_max + 1), textcoords='data',
 	       arrowprops=dict(arrowstyle="-", ec='#aaaaaa',
 	                       connectionstyle="bar,fraction=0.2"))
+			res = scipy.stats.shapiro(accuracy[agents[0]][i])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(accuracy[agents[1]][i])
+			print("shapiro",res.pvalue)
 			z, p = scipy.stats.mannwhitneyu(accuracy[agents[0]][i], accuracy[agents[1]][i])
 			print(delta[i], p)
 			ax.text(i + width, y_max, stars(p),horizontalalignment='center',verticalalignment='center')
@@ -1184,6 +1229,12 @@ def plot(num):
 		ax.boxplot(accuracy_data, sym = '', widths = 0.7, showcaps = False, 
                      vert=True,  # vertical box alignment
                      labels=label_data)  # will be used to label x-ticks
+		res = scipy.stats.shapiro(accuracy_data[0])
+		print("shapiro",res.pvalue)
+		res = scipy.stats.shapiro(accuracy_data[1])
+		print("shapiro",res.pvalue)
+		res = scipy.stats.shapiro(accuracy_data[2])
+		print("shapiro",res.pvalue)
 		z, p = scipy.stats.kruskal(accuracy_data[0], accuracy_data[1], accuracy_data[2])
 		print("kruskal wallis p value for accuracy is {}".format(p))
 		
@@ -1234,6 +1285,12 @@ def plot(num):
 		ax.boxplot(regret_data, sym = '', widths = 0.7, showcaps = False, 
                      vert=True,  # vertical box alignment
                      labels=label_data)  # will be used to label x-ticks
+		res = scipy.stats.shapiro(regret_data[0])
+		print("shapiro",res.pvalue)
+		res = scipy.stats.shapiro(regret_data[1])
+		print("shapiro",res.pvalue)
+		res = scipy.stats.shapiro(regret_data[2])
+		print("shapiro",res.pvalue)
 		z, p = scipy.stats.kruskal(regret_data[0], regret_data[1], regret_data[2])
 		print("kruskal wallis p value is {} for regret".format(p))
 		p = sp.posthoc_dunn(regret_data, p_adjust='bonferroni')
@@ -1265,6 +1322,8 @@ def plot(num):
 			x = np.vstack([np.arange(4) for _ in range(max_episode)])
 			print(x.shape)
 			print(smooth_switch_data[a].shape)
+			res = scipy.stats.shapiro(smooth_switch_data[a].flatten())
+			print("shapiro",res.pvalue)
 			res = scipy.stats.permutation_test((x.flatten(), smooth_switch_data[a].flatten()), lambda x, y: scipy.stats.spearmanr(x, y).statistic, n_resamples=100000)
 			print("{}: {}, {}".format(a, res.statistic, res.pvalue))
 		
@@ -1290,6 +1349,12 @@ def plot(num):
 		ax.boxplot(switch_data, sym = '', widths = 0.7, showcaps = False, 
                      vert=True,  # vertical box alignment
                      labels=label_data)  # will be used to label x-ticks
+		res = scipy.stats.shapiro(switch_data[0])
+		print("shapiro",res.pvalue)
+		res = scipy.stats.shapiro(switch_data[1])
+		print("shapiro",res.pvalue)
+		res = scipy.stats.shapiro(switch_data[2])
+		print("shapiro",res.pvalue)
 		z, p = scipy.stats.kruskal(switch_data[0], switch_data[1], switch_data[2])
 		print("kruskal wallis p value is {} for switch".format(p))
 	
@@ -1595,6 +1660,10 @@ def plot(num):
 		ax.boxplot(regret_data, sym = '', widths = 0.7, showcaps = False, 
                      vert=True,  # vertical box alignment
                      labels=label_data)  # will be used to label x-ticks
+		res = scipy.stats.shapiro(regret_data[0])
+		print("shapiro",res.pvalue)
+		res = scipy.stats.shapiro(regret_data[1])
+		print("shapiro",res.pvalue)
 		z, p = scipy.stats.mannwhitneyu(regret_data[0], regret_data[1])
 		print("rank sum p value is {} for regret".format(p))
 		print("regret for {} = {}, sem = {}".format(agents[0], np.mean(regret_data[0]), np.std(regret_data[0]) / np.sqrt(len(regret_data[0]))))
@@ -1803,6 +1872,10 @@ def plot(num):
 		ax.boxplot(accuracy_data, sym = '', widths = 0.7, showcaps = False, 
                      vert=True,  # vertical box alignment
                      labels=label_data)  # will be used to label x-ticks
+		res = scipy.stats.shapiro(accuracy_data[0])
+		print("shapiro",res.pvalue)
+		res = scipy.stats.shapiro(accuracy_data[1])
+		print("shapiro",res.pvalue)
 		z, p = scipy.stats.mannwhitneyu(accuracy_data[0], accuracy_data[1])
 		print("Rank sum p value for accuracy is {}".format(p))
 		print("accuracy for {} = {}, sem = {}".format(agents[0], np.mean(accuracy_data[0]), np.std(accuracy_data[0]) / np.sqrt(len(accuracy_data[0]))))
@@ -1903,6 +1976,8 @@ def plot(num):
 			x = np.vstack([np.arange(4) for _ in range(max_episode)])
 			print(x.shape)
 			print(smooth_switch_data[a].shape)
+			res = scipy.stats.shapiro(smooth_switch_data[a].flatten())
+			print("shapiro",res.pvalue)
 			res = scipy.stats.permutation_test((x.flatten(), smooth_switch_data[a].flatten()), lambda x, y: scipy.stats.spearmanr(x, y).statistic, n_resamples=100000)
 			print("{}: {}, {}".format(a, res.statistic, res.pvalue))
 		
@@ -1928,6 +2003,10 @@ def plot(num):
 		ax.boxplot(switch_data, sym = '', widths = 0.7, showcaps = False, 
                      vert=True,  # vertical box alignment
                      labels=label_data)  # will be used to label x-ticks
+		res = scipy.stats.shapiro(switch_data[0])
+		print("shapiro",res.pvalue)
+		res = scipy.stats.shapiro(switch_data[1])
+		print("shapiro",res.pvalue)
 		z, p = scipy.stats.mannwhitneyu(switch_data[0], switch_data[1])
 		print("rank sum p value is {} for switch".format(p))
 		print("switch for {} = {}, sem = {}".format(agents[0], np.mean(switch_data[0]), np.std(switch_data[0]) / np.sqrt(len(switch_data[0]))))
@@ -2286,9 +2365,19 @@ def plot(num):
                      vert=True,  # vertical box alignment
                      labels=label_data)  # will be used to label x-ticks
 		if num == 7:
+			res = scipy.stats.shapiro(regret_data[0])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(regret_data[1])
+			print("shapiro",res.pvalue)
 			z, p = scipy.stats.mannwhitneyu(regret_data[0], regret_data[1])
 			print("rank sum p value is {} for regret".format(p))
 		if num == 9:
+			res = scipy.stats.shapiro(regret_data[0])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(regret_data[1])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(regret_data[2])
+			print("shapiro",res.pvalue)
 			z, p = scipy.stats.kruskal(regret_data[0], regret_data[1], regret_data[2])
 			print("kruskal wallis p value is {} for regret".format(p))
 			p = sp.posthoc_dunn(regret_data, p_adjust='bonferroni')
@@ -2483,10 +2572,20 @@ def plot(num):
                      vert=True,  # vertical box alignment
                      labels=label_data)  # will be used to label x-ticks
 		if num == 7:
+			res = scipy.stats.shapiro(accuracy_data[0])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(accuracy_data[1])
+			print("shapiro",res.pvalue)
 			z, p = scipy.stats.mannwhitneyu(accuracy_data[0], accuracy_data[1])
 			print("Rank sum p value for accuracy is {}".format(p))
 
 		if num == 9:
+			res = scipy.stats.shapiro(accuracy_data[0])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(accuracy_data[1])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(accuracy_data[2])
+			print("shapiro",res.pvalue)
 			z, p = scipy.stats.kruskal(accuracy_data[0], accuracy_data[1], accuracy_data[2])
 			print("kruskal wallis p value for accuracy is {}".format(p))
 			print("accuracy for {} = {}, sem = {}".format(agents[2], np.mean(accuracy_data[2]), np.std(accuracy_data[2]) / np.sqrt(len(accuracy_data[2]))))
@@ -2560,6 +2659,12 @@ def plot(num):
 			lose_stay_data.append(lose_stay)
 
 		if num == 9:
+			res = scipy.stats.shapiro(win_switch_data[0])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(win_switch_data[1])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(win_switch_data[2])
+			print("shapiro",res.pvalue)
 			z, p = scipy.stats.kruskal(win_switch_data[0],win_switch_data[1], win_switch_data[2])
 			print("kruskal wallis p value is {} for win switch".format(p))
 			
@@ -2567,6 +2672,10 @@ def plot(num):
 			print(p)
 			print("win switch for {} = {}, sem = {}".format(agents[2], np.mean(win_switch_data[2]), np.std(win_switch_data[2]) / np.sqrt(len(win_switch_data[2]))))
 		if num == 7:
+			res = scipy.stats.shapiro(win_switch_data[0])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(win_switch_data[1])
+			print("shapiro",res.pvalue)
 			z, p = scipy.stats.mannwhitneyu(win_switch_data[0],win_switch_data[1])
 
 			print("Rank sum p value is {} for win switch".format(p))
@@ -2575,6 +2684,12 @@ def plot(num):
 		print("win switch for {} = {}, sem = {}".format(agents[1],  np.mean(win_switch_data[1]), np.std(win_switch_data[1]) / np.sqrt(len(win_switch_data[1]))))
 
 		if num == 9:
+			res = scipy.stats.shapiro(win_stay_data[0])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(win_stay_data[1])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(win_stay_data[2])
+			print("shapiro",res.pvalue)
 			z, p = scipy.stats.kruskal(win_stay_data[0],win_stay_data[1], win_stay_data[2])
 			print("kruskal wallis p value is {} for win stay".format(p))
 			
@@ -2582,6 +2697,10 @@ def plot(num):
 			print(p)
 			print("win stay for {} = {}, sem = {}".format(agents[2], np.mean(win_stay_data[2]), np.std(win_stay_data[2]) / np.sqrt(len(win_stay_data[2]))))
 		if num == 7:
+			res = scipy.stats.shapiro(win_stay_data[0])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(win_stay_data[1])
+			print("shapiro",res.pvalue)
 			z, p = scipy.stats.mannwhitneyu(win_stay_data[0],win_stay_data[1])
 
 			print("Rank sum p value is {} for win stay".format(p))
@@ -2590,6 +2709,12 @@ def plot(num):
 		print("win stay for {} = {}, sem = {}".format(agents[1],  np.mean(win_stay_data[1]), np.std(win_stay_data[1]) / np.sqrt(len(win_stay_data[1]))))
 
 		if num == 9:
+			res = scipy.stats.shapiro(lose_switch_data[0])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(lose_switch_data[1])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(lose_switch_data[2])
+			print("shapiro",res.pvalue)
 			z, p = scipy.stats.kruskal(lose_switch_data[0],lose_switch_data[1], lose_switch_data[2])
 			print("kruskal wallis p value is {} for lose switch".format(p))
 			
@@ -2597,6 +2722,10 @@ def plot(num):
 			print(p)
 			print("lose switch for {} = {}, sem = {}".format(agents[2], np.mean(lose_switch_data[2]), np.std(lose_switch_data[2]) / np.sqrt(len(lose_switch_data[2]))))
 		if num == 7:
+			res = scipy.stats.shapiro(lose_switch_data[0])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(lose_switch_data[1])
+			print("shapiro",res.pvalue)
 			z, p = scipy.stats.mannwhitneyu(lose_switch_data[0],lose_switch_data[1])
 
 			print("Rank sum p value is {} for lose switch".format(p))
@@ -2605,6 +2734,12 @@ def plot(num):
 		print("lose switch for {} = {}, sem = {}".format(agents[1],  np.mean(lose_switch_data[1]), np.std(lose_switch_data[1]) / np.sqrt(len(lose_switch_data[1]))))
 
 		if num == 9:
+			res = scipy.stats.shapiro(lose_stay_data[0])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(lose_stay_data[1])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(lose_stay_data[2])
+			print("shapiro",res.pvalue)
 			z, p = scipy.stats.kruskal(lose_stay_data[0],lose_stay_data[1], lose_stay_data[2])
 			print("kruskal wallis p value is {} for lose stay".format(p))
 			
@@ -2612,6 +2747,10 @@ def plot(num):
 			print(p)
 			print("lose stay for {} = {}, sem = {}".format(agents[2], np.mean(lose_stay_data[2]), np.std(lose_stay_data[2]) / np.sqrt(len(lose_stay_data[2]))))
 		if num == 7:
+			res = scipy.stats.shapiro(lose_stay_data[0])
+			print("shapiro",res.pvalue)
+			res = scipy.stats.shapiro(lose_stay_data[1])
+			print("shapiro",res.pvalue)
 			z, p = scipy.stats.mannwhitneyu(lose_stay_data[0],lose_stay_data[1])
 
 			print("Rank sum p value is {} for lose stay".format(p))
@@ -2780,6 +2919,8 @@ def plot(num):
 			x = np.vstack([np.arange(4) for _ in range(max_episode)])
 			print(x.shape)
 			print(smooth_switch_data[a].shape)
+			res = scipy.stats.shapiro(smooth_switch_data[a].flatten())
+			print("shapiro",res.pvalue)
 			res = scipy.stats.permutation_test((x.flatten(), smooth_switch_data[a].flatten()), lambda x, y: scipy.stats.spearmanr(x, y).statistic, n_resamples=100000)
 			print("{}: {}, {}".format(a, res.statistic, res.pvalue))
 		
