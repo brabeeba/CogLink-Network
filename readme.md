@@ -1,5 +1,5 @@
 # Code for "Revealing how uncertainty computations drive1 hierarchical reasoning via CogLink Networks"
-10.5281/zenodo.13152289
+DOI: 10.5281/zenodo.13152289
 ## Installation
 It is highly recommended to use virtual environment to install the package. 
 > virtualenv env
