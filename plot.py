@@ -8,6 +8,8 @@ from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 import scipy.stats
 from matplotlib.collections import PolyCollection
 import scikit_posthocs as sp
+import argparse
+import os
 if not os.path.exists("./fig"):
     os.makedirs("./fig")
 
@@ -15,8 +17,11 @@ from sklearn.svm import LinearSVC
 matplotlib.rcParams['pdf.fonttype'] = 42
 matplotlib.rcParams['ps.fonttype'] = 42
 
+parser = argparse.ArgumentParser()
+parser.add_argument('--experiment_num', type=int, default=1)
+opt = vars(parser.parse_args())
 
-num = 1
+num = opt["experiment_num"]
 
 sns.set_theme(context = "paper", style = "ticks")
 #sns.set_theme("ticks", palette=None, context = "paper")
