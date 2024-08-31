@@ -1,35 +1,53 @@
-06/28/2024 01:08:04 PM: [ COMMAND: train.py ]
-06/28/2024 01:08:04 PM: Model Training begin with options:
-06/28/2024 01:08:04 PM: train_dir : ./train_dir
-06/28/2024 01:08:04 PM: tensorboard : ./train_dir/tensorboard
-06/28/2024 01:08:04 PM: log_file : ./train_dir/run.log
-06/28/2024 01:08:04 PM: no_cuda : False
-06/28/2024 01:08:04 PM: gpu : 0
-06/28/2024 01:08:04 PM: random_seed : 123
-06/28/2024 01:08:04 PM: context_num : 2
-06/28/2024 01:08:04 PM: stimuli_num : 1
-06/28/2024 01:08:04 PM: class_num : 2
-06/28/2024 01:08:04 PM: block_size : 200
-06/28/2024 01:08:04 PM: max_trial : 1000
-06/28/2024 01:08:04 PM: logging_interval : 1
-06/28/2024 01:08:04 PM: dt : 0.005
-06/28/2024 01:08:04 PM: experiment_num : 1
-06/28/2024 01:08:04 PM: cuda : False
-06/28/2024 01:08:04 PM: Model parameter is the following:
-06/28/2024 01:08:04 PM: gamma: 1
-06/28/2024 01:08:04 PM: quantile_num: 100
-06/28/2024 01:08:04 PM: N: 50
-06/28/2024 01:08:04 PM: K: 3
-06/28/2024 01:08:04 PM: a: 1
-06/28/2024 01:08:04 PM: b: 1
-06/28/2024 01:08:04 PM: a1: 0.75
-06/28/2024 01:08:04 PM: b1: 1
-06/28/2024 01:08:04 PM: a2: 1
-06/28/2024 01:08:04 PM: b2: 1
-06/28/2024 01:08:04 PM: tau: 10
-06/28/2024 01:08:04 PM: eta: 0.5
-06/28/2024 01:08:04 PM: threshold: 0.8
-06/28/2024 01:08:04 PM: d_interval: 1000
-06/28/2024 01:08:04 PM: uniform: False
-06/28/2024 01:08:04 PM: uniform_init: False
-06/28/2024 01:08:28 PM: Reach the last trial at trial 500
+08/29/2024 10:11:18 AM: [ COMMAND: train.py --experiment_num 10 ]
+08/29/2024 10:11:18 AM: Model Training begin with options:
+08/29/2024 10:11:18 AM: train_dir : ./train_dir
+08/29/2024 10:11:18 AM: tensorboard : ./train_dir/tensorboard
+08/29/2024 10:11:18 AM: log_file : ./train_dir/run.log
+08/29/2024 10:11:18 AM: no_cuda : False
+08/29/2024 10:11:18 AM: gpu : 0
+08/29/2024 10:11:18 AM: random_seed : 123
+08/29/2024 10:11:18 AM: context_num : 2
+08/29/2024 10:11:18 AM: stimuli_num : 1
+08/29/2024 10:11:18 AM: class_num : 2
+08/29/2024 10:11:18 AM: block_size : 200
+08/29/2024 10:11:18 AM: max_trial : 1000
+08/29/2024 10:11:18 AM: logging_interval : 1
+08/29/2024 10:11:18 AM: dt : 0.005
+08/29/2024 10:11:18 AM: experiment_num : 10
+08/29/2024 10:11:18 AM: cuda : False
+08/29/2024 10:11:18 AM: Model parameter is the following:
+08/29/2024 10:11:18 AM: gamma1: 0.99
+08/29/2024 10:11:18 AM: gamma2: 0.8
+08/29/2024 10:11:18 AM: lr: 0.1
+08/29/2024 10:11:18 AM: temperature: 30
+08/29/2024 10:11:18 AM: tau: 2
+08/29/2024 10:11:18 AM: a: 1
+08/29/2024 10:11:18 AM: gamma: 0.93
+08/29/2024 10:11:18 AM: iter: 40
+08/29/2024 10:11:18 AM: learning: True
+08/29/2024 10:11:18 AM: nonlinear: True
+08/29/2024 10:11:18 AM: inhibit: False
+08/29/2024 10:11:18 AM: d2: False
+08/29/2024 10:11:18 AM: rescue: False
+08/29/2024 10:11:18 AM: quantile_num: 100
+08/29/2024 10:11:18 AM: N: 5
+08/29/2024 10:11:18 AM: K: 3
+08/29/2024 10:11:18 AM: b: 1
+08/29/2024 10:11:18 AM: a1: 0.75
+08/29/2024 10:11:18 AM: b1: 1
+08/29/2024 10:11:18 AM: a2: 1
+08/29/2024 10:11:18 AM: b2: 1
+08/29/2024 10:11:18 AM: tau1: 10
+08/29/2024 10:11:18 AM: eta: 0.5
+08/29/2024 10:11:18 AM: threshold: 0.8
+08/29/2024 10:11:18 AM: d_interval: 1000
+08/29/2024 10:19:05 AM: Reach the last trial at trial 1000
+08/29/2024 10:19:06 AM: Reach the last trial at trial 1000
+08/29/2024 10:22:50 AM: Reach the last trial at trial 1000
+08/29/2024 10:22:50 AM: Reach the last trial at trial 1000
+08/29/2024 10:25:59 AM: Reach the last trial at trial 1000
+08/29/2024 10:25:59 AM: Reach the last trial at trial 1000
+08/29/2024 10:29:10 AM: Reach the last trial at trial 1000
+08/29/2024 10:29:10 AM: Reach the last trial at trial 1000
+08/29/2024 10:32:43 AM: Reach the last trial at trial 1000
+08/29/2024 10:32:43 AM: Reach the last trial at trial 1000

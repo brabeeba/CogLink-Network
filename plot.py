@@ -43,6 +43,7 @@ def stars(p):
        return "-"
 
 def plot(num):
+	print("Analyze the data of experiment {} and plot the corresponding figures".format(num))
 	
 		
 
@@ -103,7 +104,7 @@ def plot(num):
 		agents = list(data["action"].keys())
 
 		
-		print(agents)
+		
 		
 		max_trial = len(data["action"][agents[0]][0, 0, :])
 		t = np.arange(max_trial)
@@ -115,9 +116,13 @@ def plot(num):
 	
 		label = np.linspace(0.5, 0.2, len(delta))
 		label = ["{0:.2f}".format(x) for x in label]
-		print(label)
+		
 		x = np.arange(len(delta))
-		print(delta)
+		
+
+		print("There are four stationary A-AFC tasks tested in this experiment with A=[2,2, 2, 2], Delta = {} respectively".format(label))
+		print("Here is the models tested: {}".format(agents))
+
 		fig, ax = plt.subplots()
 		fig.set_figwidth(4.8 * ratio)
 		fig.set_figheight(4.8 * ratio)
@@ -125,7 +130,6 @@ def plot(num):
 		multiplier = 0
 		regret_data = []
 
-		print("regret")
 		for i, a in enumerate(agents):
 			error_bar = np.std(data["regret"][a][:, :, -1], axis = 1) / np.sqrt(data["regret"][a][:, :, -1].shape[1])
 			# offset  = width * multiplier
@@ -164,16 +168,23 @@ def plot(num):
 	       arrowprops=dict(arrowstyle="-", ec='#aaaaaa',
 	                       connectionstyle="bar,fraction=0.2"))
 			res = scipy.stats.shapiro(regret_data[0][i])
-			print("shapiro", res.pvalue)
+			print("The p value of shapiro test on the accumulated regret of {} in environment A = 2, Delta = {} is {}".format(agents[0],label[i],  res.pvalue))
+			
 			res = scipy.stats.shapiro(regret_data[1][i])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accumulated regret of {} in environment A = 2, Delta = {} is {}".format(agents[1],label[i],  res.pvalue))
+			
 			res = scipy.stats.shapiro(regret_data[2][i])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accumulated regret of {} in environment A = 2, Delta = {} is {}".format(agents[2],label[i],  res.pvalue))
+			
 
 			z, p = scipy.stats.kruskal(regret_data[0][i], regret_data[1][i], regret_data[2][i])
-			print("kruskal wallis p value for regret is {}".format(p))
+			print("The p value of Kruskal Wallis test on the accumulated regret in environment A = 2, Delta = {} is {}".format(label[i], p))
+		 
 			
 			p = sp.posthoc_dunn([x[i] for x in regret_data], p_adjust='bonferroni')
+			print("The p value of posthoc dunn test with bonferroni correction on the accumulated regret in environment A = 2, Delta = {} is detailed in the following matrix:".format(label[i]))
+			print("1 represents {}, 2 represents {}, 3 represents".format(agents[0], agents[1], agents[2]))
+			
 			print(p)
 			
 		# plt.legend(loc="upper right", frameon = False)
@@ -224,7 +235,6 @@ def plot(num):
 			#plt.errorbar(delta,np.mean(data["regret"][a][:, :, -1], axis = 1), yerr = error_bar, c = palette[i], label = a)
 			#plt.plot(delta, np.mean(data["regret"][a][:, :, -1], axis = 1), label = a, c = palette[i])
 
-		print("accuracy")
 		for i in range(len(delta)):
 		# 	y_max = np.max([np.mean(data["regret"][a][i, :, -1]) +  np.std(data["regret"][a][i, :, -1]) / np.sqrt(len(data["regret"][a][i, :, -1]))  for a in agents[1:]])
 		# 	y_min = np.min([data["regret"][a][i, :, -1] for a in agents[1:]])
@@ -243,23 +253,32 @@ def plot(num):
 	       arrowprops=dict(arrowstyle="-", ec='#aaaaaa',
 	                       connectionstyle="bar,fraction=0.2"))
 			res = scipy.stats.shapiro(accuracy_data[0][i])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accuracy per run of {} in environment A = 2, Delta = {} is {}".format(agents[0],label[i],  res.pvalue))
+	
 			res = scipy.stats.shapiro(accuracy_data[1][i])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accuracy per run of {} in environment A = 2, Delta = {} is {}".format(agents[1],label[i],  res.pvalue))
+	
 			res = scipy.stats.shapiro(accuracy_data[2][i])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accuracy per run of {} in environment A = 2, Delta = {} is {}".format(agents[2],label[i],  res.pvalue))
+	
 
 			z, p = scipy.stats.kruskal(accuracy_data[0][i], accuracy_data[1][i], accuracy_data[2][i])
-			print("kruskal wallis p value for accuracy is {}".format(p))
+			print("The p value of Kruskal Wallis test on the accuracy per run in environment A = 2, Delta = {} is {}".format(label[i], p))
+		 
 			
 			p = sp.posthoc_dunn([x[i] for x in accuracy_data], p_adjust='bonferroni')
+			print("The p value of posthoc dunn test with bonferroni correction on the accuracy per run in environment A = 2, Delta = {} is detailed in the following matrix:".format(label[i]))
+			print("1 represents {}, 2 represents {}, 3 represents".format(agents[0], agents[1], agents[2]))
+			
 			print(p)
+
+			
 			
 		# plt.legend(loc="upper right", frameon = False)
 		plt.legend(loc="upper left", frameon = False)
 		ax.set_xticks(x + width, labels = label)
 		plt.xlabel("\u0394")
-		plt.ylabel("Regret")
+		plt.ylabel("Accuracy")
 		ylim = 0.93
 		plt.ylim(bottom = ylim)
 		plt.ylim(top = 1)
@@ -317,16 +336,22 @@ def plot(num):
 	                     vert=True,  # vertical box alignment
 	                     labels=label_data)  # will be used to label x-ticks
 			res = scipy.stats.shapiro(accuracy_data[0])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accuracy per run of {} in environment A = 2, Delta = {} is {}".format(agents[0],label[i],  res.pvalue))
+	
 			res = scipy.stats.shapiro(accuracy_data[1])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accuracy per run of {} in environment A = 2, Delta = {} is {}".format(agents[1],label[i],  res.pvalue))
+	
 			res = scipy.stats.shapiro(accuracy_data[2])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accuracy per run of {} in environment A = 2, Delta = {} is {}".format(agents[2],label[i],  res.pvalue))
+	
 			
 			z, p = scipy.stats.kruskal(accuracy_data[0], accuracy_data[1], accuracy_data[2])
-			print("kruskal wallis p value for accuracy is {}".format(p))
-			
+			print("The p value of Kruskal Wallis test on the accuracy per run in environment A = 2, Delta = {} is {}".format(label[i], p))
+		 
 			p = sp.posthoc_dunn(accuracy_data, p_adjust='bonferroni')
+			print("The p value of posthoc dunn test with bonferroni correction on the accuracy per run in environment A = 2, Delta = {} is detailed in the following matrix:".format(label[i]))
+			print("1 represents {}, 2 represents {}, 3 represents".format(agents[0], agents[1], agents[2]))
+			
 			print(p)
 
 
@@ -338,8 +363,8 @@ def plot(num):
 				
 			plt.legend(loc="upper left", frameon=False)
 			plt.xlabel("Trial")
-			plt.ylabel("Accumulated regret")
-			plt.title("Averaged accumulated regret over {} trials".format(max_trial))
+			plt.ylabel("Accuracy")
+			plt.title("Accuracy over {} trials".format(max_trial))
 			sns.despine()
 			plt.savefig("fig/experiment{}_task_{}_accuracy_box.pdf".format(num, i), transparent = True)
 			plt.close()
@@ -362,23 +387,30 @@ def plot(num):
 	                     labels=label_data)  # will be used to label x-ticks
 
 			res = scipy.stats.shapiro(regret_data[0])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accumulated regret of {} in environment A = 2, Delta = {} is {}".format(agents[0],label[i],  res.pvalue))
+	
 			res = scipy.stats.shapiro(regret_data[1])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accumulated regret of {} in environment A = 2, Delta = {} is {}".format(agents[1],label[i],  res.pvalue))
+	
 			res = scipy.stats.shapiro(regret_data[2])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accumulated regret of {} in environment A = 2, Delta = {} is {}".format(agents[2],label[i],  res.pvalue))
+	
 			
 			
 			z, p = scipy.stats.kruskal(regret_data[0], regret_data[1], regret_data[2])
-			print("kruskal wallis p value for regret is {}".format(p))
+			print("The p value of Kruskal Wallis test on the accumulated regret in environment A = 2, Delta = {} is {}".format(label[i], p))
+		 
 			
 			p = sp.posthoc_dunn(regret_data, p_adjust='bonferroni')
+			print("The p value of posthoc dunn test with bonferroni correction on the accumulated regret in environment A = 2, Delta = {} is detailed in the following matrix:".format(label[i]))
+			print("1 represents {}, 2 represents {}, 3 represents".format(agents[0], agents[1], agents[2]))
+			
 			print(p)
 
 
-			print("accuracy for {} = {}, sem = {}".format(agents[0], np.mean(regret_data[0]), np.std(regret_data[0]) / np.sqrt(len(regret_data[0]))))
-			print("accuracy for {} = {}, sem = {}".format(agents[1],  np.mean(regret_data[1]), np.std(regret_data[1]) / np.sqrt(len(regret_data[1]))))
-			print("accuracy for {} = {}, sem = {}".format(agents[2],  np.mean(regret_data[2]), np.std(regret_data[2]) / np.sqrt(len(regret_data[2]))))
+			print("regret for {} = {}, sem = {}".format(agents[0], np.mean(regret_data[0]), np.std(regret_data[0]) / np.sqrt(len(regret_data[0]))))
+			print("regret for {} = {}, sem = {}".format(agents[1],  np.mean(regret_data[1]), np.std(regret_data[1]) / np.sqrt(len(regret_data[1]))))
+			print("regret for {} = {}, sem = {}".format(agents[2],  np.mean(regret_data[2]), np.std(regret_data[2]) / np.sqrt(len(regret_data[2]))))
 
 			
 				
@@ -402,13 +434,12 @@ def plot(num):
 
 
 	if num == 1 or num == 3:
+
 		ratio = 0.7
 
 		data = load_dict("experiment{}_data".format(num))
 		agents = list(data["action"].keys())
 
-		# agents = [agents[1], agents[0], agents[2]]
-		
 		max_trial = len(data["action"][agents[0]][0, 0, :])
 		t = np.arange(max_trial)
 
@@ -419,16 +450,18 @@ def plot(num):
 	
 		label = np.linspace(0.5, 0.2, len(delta))
 		label = ["{0:.2f}".format(x) for x in label]
-		print(label)
+		print("There are four stationary A-AFC tasks tested in this experiment with A=[3, 3, 3, 3], Delta = {} respectively".format(label))
+		print("Here is the models tested: {}".format(agents))
+		if num == 1:
+			print("Distributional RPE model is the d-CS model")
 		x = np.arange(len(delta))
-		print(delta)
+		
 		fig, ax = plt.subplots()
 		fig.set_figwidth(4.8 * ratio)
 		fig.set_figheight(4.8 * ratio)
 		width = 0.33
 		multiplier = 0
 
-		print("regret")
 		for i, a in enumerate(agents):
 			error_bar = np.std(data["regret"][a][:, :, -1], axis = 1) / np.sqrt(data["regret"][a][:, :, -1].shape[1])
 			# offset  = width * multiplier
@@ -466,12 +499,12 @@ def plot(num):
 	       arrowprops=dict(arrowstyle="-", ec='#aaaaaa',
 	                       connectionstyle="bar,fraction=0.2"))
 			res = scipy.stats.shapiro(data["regret"][agents[0]][i, :, -1])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accumulated regret of {} in environment A = 3, Delta = {} is {}".format(agents[0],label[i],  res.pvalue))
 			res = scipy.stats.shapiro(data["regret"][agents[1]][i, :, -1])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accumulated regret of {} in environment A = 3, Delta = {} is {}".format(agents[1],label[i],  res.pvalue))
 
 			z, p = scipy.stats.mannwhitneyu(data["regret"][agents[0]][i, :, -1], data["regret"][agents[1]][i, :, -1])
-			print(delta[i], p)
+			print("The p value of two-way rank sum test for the regret of {} and {} in environment A = 3, Delta = {} is {}".format(agents[0], agents[1], label[i], p))
 			ax.text(i + width, y_max + 2, stars(p),horizontalalignment='center',verticalalignment='center')
 		
 		# plt.legend(loc="upper right", frameon = False)
@@ -521,7 +554,7 @@ def plot(num):
 			#plt.errorbar(delta,np.mean(data["regret"][a][:, :, -1], axis = 1), yerr = error_bar, c = palette[i], label = a)
 			#plt.plot(delta, np.mean(data["regret"][a][:, :, -1], axis = 1), label = a, c = palette[i])
 
-		print("accuracy")
+	
 		for i in range(len(delta)):
 		# 	y_max = np.max([np.mean(data["regret"][a][i, :, -1]) +  np.std(data["regret"][a][i, :, -1]) / np.sqrt(len(data["regret"][a][i, :, -1]))  for a in agents[1:]])
 		# 	y_min = np.min([data["regret"][a][i, :, -1] for a in agents[1:]])
@@ -540,18 +573,20 @@ def plot(num):
 	       arrowprops=dict(arrowstyle="-", ec='#aaaaaa',
 	                       connectionstyle="bar,fraction=0.2"))
 			res = scipy.stats.shapiro(accuracy[agents[0]][i])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accuracy per run of {} in environment A = 3, Delta = {} is {}".format(agents[0],label[i],  res.pvalue))
 			res = scipy.stats.shapiro(accuracy[agents[1]][i])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accuracy per run of {} in environment A = 3, Delta = {} is {}".format(agents[1],label[i],  res.pvalue))
+		
 			z, p = scipy.stats.mannwhitneyu(accuracy[agents[0]][i], accuracy[agents[1]][i])
-			print(delta[i], p)
+			print("The p value of two-way rank sum test for the accuracy per run of {} and {} in environment A = 3, Delta = {} is {}".format(agents[0], agents[1], label[i], p))
+			
 			ax.text(i + width, y_max, stars(p),horizontalalignment='center',verticalalignment='center')
 		
 		# plt.legend(loc="upper right", frameon = False)
 		plt.legend(loc="upper left", frameon = False)
 		ax.set_xticks(x + width, labels = label)
 		plt.xlabel("\u0394")
-		plt.ylabel("Regret")
+		plt.ylabel("Accuracy")
 		if num == 1:
 			ylim = 0.675
 		if num == 3:
@@ -761,7 +796,6 @@ def plot(num):
 				fig.set_figheight(4.8 * ratio)
 
 				if a != "Thompson Sampling":
-					print(data["quantile_data"][a][0].shape)
 					quantile_data = data["quantile_data"][a][0][j, 0,  :]
 					class_num, quantile_num, max_trial = quantile_data.shape
 					quantile_data = quantile_data.reshape( class_num * quantile_num, max_trial)
@@ -807,6 +841,11 @@ def plot(num):
 		idx = np.arange(len(delta))
 		ax = plt.figure().gca()
 		ax.xaxis.get_major_locator().set_params(integer=True)
+
+		print("There are four stationary A-AFC tasks tested in this experiment with A= {}, Delta = [0.4, 0.4, 0.4, 0.4] respectively".format(delta))
+		print("Here is the models tested: {}".format(agents))
+		if num == 2:
+			print("Distributional RPE model is the d-CS model")
 		
 		ratio = 0.7
 		fig, ax = plt.subplots(layout='constrained')
@@ -815,7 +854,7 @@ def plot(num):
 		width = 0.33
 		multiplier = 0
 		x = np.arange(len(delta))
-		print("regret")
+		
 		for i, a in enumerate(agents):
 			error_bar = np.std(data["regret"][a][:, :, -1], axis = 1) / np.sqrt(data["regret"][a][:, :, -1].shape[1])
 
@@ -854,14 +893,18 @@ def plot(num):
 	       arrowprops=dict(arrowstyle="-", ec='#aaaaaa',
 	                       connectionstyle="bar,fraction=0.2"))
 			res = scipy.stats.shapiro(data["regret"][agents[0]][i, :, -1])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accumulated regret of {} in environment A = {}, Delta = 0.4 is {}".format(agents[0],delta[i],  res.pvalue))
+	
 			res = scipy.stats.shapiro(data["regret"][agents[1]][i, :, -1])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accumulated regret of {} in environment A = {}, Delta = 0.4 is {}".format(agents[1],delta[i],  res.pvalue))
+	
 			z, p = scipy.stats.mannwhitneyu(data["regret"][agents[0]][i, :, -1], data["regret"][agents[1]][i, :, -1])
-			print( delta[i],p)
+			print("The p value of two-way rank sum test for the regret of {} and {} in environment A = {}, Delta = 0.4 is {}".format(agents[0], agents[1], delta[i], p))
+		
 			ax.text(i + width, y_max + 2, stars(p),horizontalalignment='center',verticalalignment='center')
 			# ax.text(i + 0.375, y_max + 4, stars(p * 2),horizontalalignment='center',verticalalignment='center')
 		
+
 		
 		plt.legend(loc="upper left", frameon = False)
 		plt.xlabel("A")
@@ -905,7 +948,6 @@ def plot(num):
 			#plt.errorbar(delta,np.mean(data["regret"][a][:, :, -1], axis = 1), yerr = error_bar, c = palette[i], label = a)
 			#plt.plot(delta, np.mean(data["regret"][a][:, :, -1], axis = 1), label = a, c = palette[i])
 
-		print("accuracy")
 		for i in range(len(delta)):
 		# 	y_max = np.max([np.mean(data["regret"][a][i, :, -1]) +  np.std(data["regret"][a][i, :, -1]) / np.sqrt(len(data["regret"][a][i, :, -1]))  for a in agents[1:]])
 		# 	y_min = np.min([data["regret"][a][i, :, -1] for a in agents[1:]])
@@ -924,18 +966,21 @@ def plot(num):
 	       arrowprops=dict(arrowstyle="-", ec='#aaaaaa',
 	                       connectionstyle="bar,fraction=0.2"))
 			res = scipy.stats.shapiro(accuracy[agents[0]][i])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accuracy per run of {} in environment A = {}, Delta = 0.4 is {}".format(agents[0],delta[i],  res.pvalue))
+	
 			res = scipy.stats.shapiro(accuracy[agents[1]][i])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accuracy per run of {} in environment A = {}, Delta = 0.4 is {}".format(agents[1],delta[i],  res.pvalue))
+	
 			z, p = scipy.stats.mannwhitneyu(accuracy[agents[0]][i], accuracy[agents[1]][i])
-			print(delta[i], p)
+			print("The p value of two-way rank sum test for the accuracy per run of {} and {} in environment A = {}, Delta = 0.4 is {}".format(agents[0], agents[1], delta[i], p))
+		
 			ax.text(i + width, y_max, stars(p),horizontalalignment='center',verticalalignment='center')
 		
 		# plt.legend(loc="upper right", frameon = False)
 		plt.legend(loc="upper left", frameon = False)
 		ax.set_xticks(x + width, labels = delta)
 		plt.xlabel("\u0394")
-		plt.ylabel("Regret")
+		plt.ylabel("Accuracy")
 		if num == 2:
 			ylim = 0.575
 		else:
@@ -957,7 +1002,6 @@ def plot(num):
 			
 			trial_num =500
 			for i, a in enumerate(agents):
-				print(data["action"][a].shape)
 				idx = 2
 				action_accuracy = np.copy(data["action"][a][idx])
 				action_accuracy[action_accuracy != (idx+2)] = 0
@@ -1070,7 +1114,6 @@ def plot(num):
 				fig.set_figheight(4.8 * ratio)
 
 				if a != "Thompson Sampling":
-					print(data["quantile_data"][a][0].shape)
 					quantile_data = data["quantile_data"][a][0][j, 0,  :]
 					class_num, quantile_num, max_trial = quantile_data.shape
 					quantile_data = quantile_data.reshape( class_num * quantile_num, max_trial)
@@ -1115,7 +1158,9 @@ def plot(num):
 		t = np.arange(max_trial)
 		block_size = 200
 
-		print(max_episode)
+		print("The following models are tested in a probability reversal task: {}".format(agents))
+		
+
 		
 		
 		bt = np.arange(0, 1000, 200)
@@ -1237,22 +1282,27 @@ def plot(num):
                      vert=True,  # vertical box alignment
                      labels=label_data)  # will be used to label x-ticks
 		res = scipy.stats.shapiro(accuracy_data[0])
-		print("shapiro",res.pvalue)
+		print("The p value of shapiro test on the accuracy per run of {} in probability reversal task is {}".format(agents[0], res.pvalue))
+	
 		res = scipy.stats.shapiro(accuracy_data[1])
-		print("shapiro",res.pvalue)
+		print("The p value of shapiro test on the accuracy per run of {} in probability reversal task is {}".format(agents[1], res.pvalue))
+	
 		res = scipy.stats.shapiro(accuracy_data[2])
-		print("shapiro",res.pvalue)
+		print("The p value of shapiro test on the accuracy per run of {} in probability reversal task is {}".format(agents[2], res.pvalue))
+	
 		z, p = scipy.stats.kruskal(accuracy_data[0], accuracy_data[1], accuracy_data[2])
-		print("kruskal wallis p value for accuracy is {}".format(p))
+		print("The p value of Kruskal Wallis test on the accuracy per run in a probability reversal task is {}".format(p))
 		
 		p = sp.posthoc_dunn(accuracy_data, p_adjust='bonferroni')
+		print("The p value of posthoc dunn test with bonferroni correction on the accuracy per run is detailed in the following matrix:")
+		print("1 represents {}, 2 represents {}, 3 represents".format(agents[0], agents[1], agents[2]))
 		print(p)
 
 			
 		plt.legend(loc="upper left", frameon=False)
 		plt.xlabel("Trial")
-		plt.ylabel("Accumulated regret")
-		plt.title("Averaged accumulated regret over {} trials".format(max_trial))
+		plt.ylabel("Accuracy")
+		plt.title("Accuracy over {} trials".format(max_trial))
 		sns.despine()
 		plt.savefig("fig/experiment{}_accuracy_box.pdf".format(num), transparent = True)
 		plt.close()
@@ -1293,14 +1343,20 @@ def plot(num):
                      vert=True,  # vertical box alignment
                      labels=label_data)  # will be used to label x-ticks
 		res = scipy.stats.shapiro(regret_data[0])
-		print("shapiro",res.pvalue)
+		print("The p value of shapiro test on the accumulated regret of {} in probability reversal task is {}".format(agents[0], res.pvalue))
+	
 		res = scipy.stats.shapiro(regret_data[1])
-		print("shapiro",res.pvalue)
+		print("The p value of shapiro test on the accumulated regret of {} in probability reversal task is {}".format(agents[1], res.pvalue))
+	
 		res = scipy.stats.shapiro(regret_data[2])
-		print("shapiro",res.pvalue)
+		print("The p value of shapiro test on the accumulated regret of {} in probability reversal task is {}".format(agents[2], res.pvalue))
+	
 		z, p = scipy.stats.kruskal(regret_data[0], regret_data[1], regret_data[2])
-		print("kruskal wallis p value is {} for regret".format(p))
+		print("The p value of Kruskal Wallis test on the accumulated regret in a probability reversal task is {}".format(p))
+		
 		p = sp.posthoc_dunn(regret_data, p_adjust='bonferroni')
+		print("The p value of posthoc dunn test with bonferroni correction on the accumulated regret is detailed in the following matrix:")
+		print("1 represents {}, 2 represents {}, 3 represents".format(agents[0], agents[1], agents[2]))
 		print(p)
 
 			
@@ -1327,12 +1383,13 @@ def plot(num):
 			plt.errorbar(t,np.mean(smooth_switch_data[a], axis = 0), yerr = error_bar, c = palette[i], label = a)
 			plt.plot(t, np.mean(smooth_switch_data[a], axis = 0), label = a, c = palette[i])
 			x = np.vstack([np.arange(4) for _ in range(max_episode)])
-			print(x.shape)
-			print(smooth_switch_data[a].shape)
+			
 			res = scipy.stats.shapiro(smooth_switch_data[a].flatten())
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the switch time of {} in probability reversal task is {}".format(agents[i], res.pvalue))
+	
 			res = scipy.stats.permutation_test((x.flatten(), smooth_switch_data[a].flatten()), lambda x, y: scipy.stats.spearmanr(x, y).statistic, n_resamples=100000)
-			print("{}: {}, {}".format(a, res.statistic, res.pvalue))
+			print("The spearman r coefficient of {}'s switch time is {} with p value {} in 10^6 resamples permutation test".format(agents[i], res.statistic, res.pvalue))
+			
 		
 		#plt.legend(loc="upper left")
 		plt.xlabel("Block")
@@ -1357,15 +1414,21 @@ def plot(num):
                      vert=True,  # vertical box alignment
                      labels=label_data)  # will be used to label x-ticks
 		res = scipy.stats.shapiro(switch_data[0])
-		print("shapiro",res.pvalue)
+		print("The p value of shapiro test on the switch time of {} in probability reversal task is {}".format(agents[0], res.pvalue))
+	
 		res = scipy.stats.shapiro(switch_data[1])
-		print("shapiro",res.pvalue)
+		print("The p value of shapiro test on the switch time of {} in probability reversal task is {}".format(agents[1], res.pvalue))
+	
 		res = scipy.stats.shapiro(switch_data[2])
-		print("shapiro",res.pvalue)
+		print("The p value of shapiro test on the switch time of {} in probability reversal task is {}".format(agents[2], res.pvalue))
+	
 		z, p = scipy.stats.kruskal(switch_data[0], switch_data[1], switch_data[2])
-		print("kruskal wallis p value is {} for switch".format(p))
+		print("The p value of Kruskal Wallis test on the switch time in a probability reversal task is {}".format(p))
+		
 	
 		p = sp.posthoc_dunn(switch_data, p_adjust='bonferroni')
+		print("The p value of posthoc dunn test with bonferroni correction on the switch time is detailed in the following matrix:")
+		print("1 represents {}, 2 represents {}, 3 represents".format(agents[0], agents[1], agents[2]))
 		print(p)
 
 			
@@ -1576,18 +1639,12 @@ def plot(num):
 	
 
 
-	if num == 6:
+	if num == 6 or num == 10:
 		data = load_dict("experiment{}_data".format(num))
-		# print("Before filter: {}".format(len(data["switch"]["HMM Model"])))
-		# print(data["switch"]["HMM Model"])
-		print(data["switch"]["Thalamocortical Model"])
 		
 		mask = np.logical_and((data["switch"]["Thalamocortical Model"][:, -1] > -1) , (data["switch"]["Thalamocortical Model"][:, -2] > -1) )
-		# mask = np.logical_and(mask, (data["switch"]["HMM Model"][:, -1] < 200) )
-		# mask = np.logical_and(mask, (data["switch"]["HMM Model"][:, -2] < 200) )
-		# mask = np.logical_and(mask, (data["switch"]["HMM Model"][:, -3] < 200) )
-		print("After filter: {}".format(len(data["switch"]["Thalamocortical Model"][mask, :])))
-
+		#legacy code. No data is filtered.
+		
 		switch = len(data["switch"]["Thalamocortical Model"][0])
 		max_trial = len(data["action"]["Thalamocortical Model"][0])
 		max_episode = len(data["action"]["Thalamocortical Model"])
@@ -1596,6 +1653,9 @@ def plot(num):
 
 		agents = list(data["action"].keys())
 		agents = [agents[1], agents[0]]
+
+		print("The following models are tested in a probability reversal task: {}".format(agents))
+		
 
 		switch_data = {}
 		switch_bool = {}
@@ -1629,6 +1689,15 @@ def plot(num):
 							if data["choice_prob"][a][i][j] <= 0.2:
 								switch_data[a][i][idx]  += j+1  - (idx + 1) * block_size
 								switch_bool[a][i][idx] = True
+		smooth_switch_data = {}
+		for a in agents:
+			smooth_switch_data[a] = np.zeros((max_episode, switch))
+			for i in range(max_episode):
+				for j in range(switch):
+					if j == 0:
+						smooth_switch_data[a][i][j] = switch_data[a][i][j]
+					smooth_switch_data[a][i][j] = (switch_data[a][i][j] + switch_data[a][i][j-1]) / 2.0
+
 	
 
 
@@ -1668,11 +1737,13 @@ def plot(num):
                      vert=True,  # vertical box alignment
                      labels=label_data)  # will be used to label x-ticks
 		res = scipy.stats.shapiro(regret_data[0])
-		print("shapiro",res.pvalue)
+		print("The p value of shapiro test on the accumulated regret of {} in probability reversal task is {}".format(agents[0], res.pvalue))
+	
 		res = scipy.stats.shapiro(regret_data[1])
-		print("shapiro",res.pvalue)
+		print("The p value of shapiro test on the accumulated regret of {} in probability reversal task is {}".format(agents[1], res.pvalue))
+	
 		z, p = scipy.stats.mannwhitneyu(regret_data[0], regret_data[1])
-		print("rank sum p value is {} for regret".format(p))
+		print("The p value of two-way rank sum test on the accumulated regret in a probability reversal task is {}".format(p))
 		print("regret for {} = {}, sem = {}".format(agents[0], np.mean(regret_data[0]), np.std(regret_data[0]) / np.sqrt(len(regret_data[0]))))
 		print("regret for {} = {}, sem = {}".format(agents[1],  np.mean(regret_data[1]), np.std(regret_data[1]) / np.sqrt(len(regret_data[1]))))
 
@@ -1880,19 +1951,22 @@ def plot(num):
                      vert=True,  # vertical box alignment
                      labels=label_data)  # will be used to label x-ticks
 		res = scipy.stats.shapiro(accuracy_data[0])
-		print("shapiro",res.pvalue)
+		print("The p value of shapiro test on the accuracy per run of {} in probability reversal task is {}".format(agents[0], res.pvalue))
+	
 		res = scipy.stats.shapiro(accuracy_data[1])
-		print("shapiro",res.pvalue)
+		print("The p value of shapiro test on the accuracy per run of {} in probability reversal task is {}".format(agents[1], res.pvalue))
+	
 		z, p = scipy.stats.mannwhitneyu(accuracy_data[0], accuracy_data[1])
-		print("Rank sum p value for accuracy is {}".format(p))
+		print("The p value of two-way rank sum test on the accuracy per run in a probability reversal task is {}".format(p))
+		
 		print("accuracy for {} = {}, sem = {}".format(agents[0], np.mean(accuracy_data[0]), np.std(accuracy_data[0]) / np.sqrt(len(accuracy_data[0]))))
 		print("accuracy for {} = {}, sem = {}".format(agents[1],  np.mean(accuracy_data[1]), np.std(accuracy_data[1]) / np.sqrt(len(accuracy_data[1]))))
 		
 			
 		plt.legend(loc="upper left", frameon=False)
 		plt.xlabel("Trial")
-		plt.ylabel("Accumulated regret")
-		plt.title("Averaged accumulated regret over {} trials".format(max_trial))
+		plt.ylabel("Accuracy")
+		plt.title("Accuracy over {} trials".format(max_trial))
 		sns.despine()
 		plt.savefig("fig/experiment{}_accuracy_box.pdf".format(num), transparent = True)
 		plt.close()
@@ -1981,12 +2055,14 @@ def plot(num):
 			plt.errorbar(st, switch_data, yerr = error_bar, c = palette[i], label = a)
 			plt.plot(st, switch_data, label = a, c = palette[i])
 			x = np.vstack([np.arange(4) for _ in range(max_episode)])
-			print(x.shape)
-			print(smooth_switch_data[a].shape)
+			
 			res = scipy.stats.shapiro(smooth_switch_data[a].flatten())
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the switch time of {} in probability reversal task is {}".format(agents[i], res.pvalue))
+	
 			res = scipy.stats.permutation_test((x.flatten(), smooth_switch_data[a].flatten()), lambda x, y: scipy.stats.spearmanr(x, y).statistic, n_resamples=100000)
-			print("{}: {}, {}".format(a, res.statistic, res.pvalue))
+			print("The spearman r coefficient of {}'s switch time is {} with p value {} in 10^6 resamples permutation test".format(agents[i], res.statistic, res.pvalue))
+			
+
 		
 		
 		# plt.legend(loc="upper right",  frameon = False)
@@ -2011,21 +2087,23 @@ def plot(num):
                      vert=True,  # vertical box alignment
                      labels=label_data)  # will be used to label x-ticks
 		res = scipy.stats.shapiro(switch_data[0])
-		print("shapiro",res.pvalue)
+		print("The p value of shapiro test on the switch time of {} in probability reversal task is {}".format(agents[0], res.pvalue))
+	
 		res = scipy.stats.shapiro(switch_data[1])
-		print("shapiro",res.pvalue)
+		print("The p value of shapiro test on the switch time of {} in probability reversal task is {}".format(agents[1], res.pvalue))
+	
 		z, p = scipy.stats.mannwhitneyu(switch_data[0], switch_data[1])
-		print("rank sum p value is {} for switch".format(p))
+		print("The p value of two-way rank sum test on the switch time in a probability reversal task is {}".format(p))
+		
 		print("switch for {} = {}, sem = {}".format(agents[0], np.mean(switch_data[0]), np.std(switch_data[0]) / np.sqrt(len(switch_data[0]))))
 		print("switch for {} = {}, sem = {}".format(agents[1],  np.mean(switch_data[1]), np.std(switch_data[1]) / np.sqrt(len(switch_data[1]))))
 
-	
 
 			
 		plt.legend(loc="upper left", frameon=False)
 		plt.xlabel("Trial")
-		plt.ylabel("Accumulated regret")
-		plt.title("Averaged accumulated regret over {} trials".format(max_trial))
+		plt.ylabel("Switching time")
+		plt.title("Switching time")
 		sns.despine()
 		plt.savefig("fig/experiment{}_switch_box.pdf".format(num), transparent = True)
 		plt.close()
@@ -2277,10 +2355,13 @@ def plot(num):
 
 		max_trial = len(data["action"][agents[0]][0])
 		max_episode = len(data["action"][agents[0]])
-		print(max_episode)
+		
 		block_size = 200
 
 		bt = np.arange(0, 1000, 200)
+
+		print("The following models are tested in a probability reversal task: {}".format(agents))
+		
 
 		
 	
@@ -2323,7 +2404,7 @@ def plot(num):
 							if data["choice_prob"][a][i][j] <= 0.2:
 								switch_data[a][i][idx]  += j+1  - (idx + 1) * 200
 								switch_bool[a][i][idx] = True
-			smooth_switch_data = {}
+		smooth_switch_data = {}
 		for a in agents:
 			smooth_switch_data[a] = np.zeros((max_episode, switch))
 			for i in range(max_episode):
@@ -2373,28 +2454,41 @@ def plot(num):
                      labels=label_data)  # will be used to label x-ticks
 		if num == 7:
 			res = scipy.stats.shapiro(regret_data[0])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accumulated regret of {} in probability reversal task is {}".format(agents[0], res.pvalue))
+	
 			res = scipy.stats.shapiro(regret_data[1])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accumulated regret of {} in probability reversal task is {}".format(agents[1], res.pvalue))
+	
 			z, p = scipy.stats.mannwhitneyu(regret_data[0], regret_data[1])
-			print("rank sum p value is {} for regret".format(p))
+			print("The p value of two-way rank sum test on the accumulated regret in a probability reversal task is {}".format(p))
+		
+			print("regret for {} = {}, sem = {}".format(agents[0], np.mean(regret_data[0]), np.std(regret_data[0]) / np.sqrt(len(regret_data[0]))))
+			print("regret for {} = {}, sem = {}".format(agents[1],  np.mean(regret_data[1]), np.std(regret_data[1]) / np.sqrt(len(regret_data[1]))))
+
+
 		if num == 9:
 			res = scipy.stats.shapiro(regret_data[0])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accumulated regret of {} in probability reversal task is {}".format(agents[0], res.pvalue))
+	
 			res = scipy.stats.shapiro(regret_data[1])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accumulated regret of {} in probability reversal task is {}".format(agents[1], res.pvalue))
+	
 			res = scipy.stats.shapiro(regret_data[2])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accumulated regret of {} in probability reversal task is {}".format(agents[2], res.pvalue))
+	
 			z, p = scipy.stats.kruskal(regret_data[0], regret_data[1], regret_data[2])
-			print("kruskal wallis p value is {} for regret".format(p))
-			p = sp.posthoc_dunn(regret_data, p_adjust='bonferroni')
-			print(p)
-			print("regret for {} = {}, sem = {}".format(agents[2], np.mean(regret_data[2]), np.std(regret_data[2]) / np.sqrt(len(regret_data[2]))))
+			print("The p value of Kruskal Wallis test on the accumulated regret in a probability reversal task is {}".format(p))
 		
-
-		print("regret for {} = {}, sem = {}".format(agents[0], np.mean(regret_data[0]), np.std(regret_data[0]) / np.sqrt(len(regret_data[0]))))
-		print("regret for {} = {}, sem = {}".format(agents[1],  np.mean(regret_data[1]), np.std(regret_data[1]) / np.sqrt(len(regret_data[1]))))
-
+			p = sp.posthoc_dunn(regret_data, p_adjust='bonferroni')
+			print("The p value of posthoc dunn test with bonferroni correction on the accumulated regret is detailed in the following matrix:")
+			print("1 represents {}, 2 represents {}, 3 represents".format(agents[0], agents[1], agents[2]))
+		
+			print(p)
+			
+			print("regret for {} = {}, sem = {}".format(agents[0], np.mean(regret_data[0]), np.std(regret_data[0]) / np.sqrt(len(regret_data[0]))))
+			print("regret for {} = {}, sem = {}".format(agents[1],  np.mean(regret_data[1]), np.std(regret_data[1]) / np.sqrt(len(regret_data[1]))))
+			print("regret for {} = {}, sem = {}".format(agents[2], np.mean(regret_data[2]), np.std(regret_data[2]) / np.sqrt(len(regret_data[2]))))
+				
 
 
 			
@@ -2580,36 +2674,50 @@ def plot(num):
                      labels=label_data)  # will be used to label x-ticks
 		if num == 7:
 			res = scipy.stats.shapiro(accuracy_data[0])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accuracy per run of {} in probability reversal task is {}".format(agents[0], res.pvalue))
+	
 			res = scipy.stats.shapiro(accuracy_data[1])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accuracy per run of {} in probability reversal task is {}".format(agents[1], res.pvalue))
+	
 			z, p = scipy.stats.mannwhitneyu(accuracy_data[0], accuracy_data[1])
-			print("Rank sum p value for accuracy is {}".format(p))
+			print("The p value of two-way rank sum test on the accuracy per run in a probability reversal task is {}".format(p))
+			print("accuracy for {} = {}, sem = {}".format(agents[0], np.mean(accuracy_data[0]), np.std(accuracy_data[0]) / np.sqrt(len(accuracy_data[0]))))
+			print("accuracy for {} = {}, sem = {}".format(agents[1], np.mean(accuracy_data[1]), np.std(accuracy_data[1]) / np.sqrt(len(accuracy_data[1]))))
+		
 
 		if num == 9:
 			res = scipy.stats.shapiro(accuracy_data[0])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accuracy per run of {} in probability reversal task is {}".format(agents[0], res.pvalue))
+	
 			res = scipy.stats.shapiro(accuracy_data[1])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accuracy per run of {} in probability reversal task is {}".format(agents[1], res.pvalue))
+	
 			res = scipy.stats.shapiro(accuracy_data[2])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the accuracy per run of {} in probability reversal task is {}".format(agents[2], res.pvalue))
+	
 			z, p = scipy.stats.kruskal(accuracy_data[0], accuracy_data[1], accuracy_data[2])
-			print("kruskal wallis p value for accuracy is {}".format(p))
-			print("accuracy for {} = {}, sem = {}".format(agents[2], np.mean(accuracy_data[2]), np.std(accuracy_data[2]) / np.sqrt(len(accuracy_data[2]))))
+			print("The p value of Kruskal Wallis test on the accuracy per run in a probability reversal task is {}".format(p))
 		
 		
 			p = sp.posthoc_dunn(accuracy_data, p_adjust='bonferroni')
+			print("The p value of posthoc dunn test with bonferroni correction on the accuracy per run is detailed in the following matrix:")
+			print("1 represents {}, 2 represents {}, 3 represents".format(agents[0], agents[1], agents[2]))
+		
 			print(p)
 
-		print("accuracy for {} = {}, sem = {}".format(agents[0], np.mean(accuracy_data[0]), np.std(accuracy_data[0]) / np.sqrt(len(accuracy_data[0]))))
-		print("accuracy for {} = {}, sem = {}".format(agents[1],  np.mean(accuracy_data[1]), np.std(accuracy_data[1]) / np.sqrt(len(accuracy_data[1]))))
+			print("accuracy for {} = {}, sem = {}".format(agents[0], np.mean(accuracy_data[0]), np.std(accuracy_data[0]) / np.sqrt(len(accuracy_data[0]))))
+			print("accuracy for {} = {}, sem = {}".format(agents[1], np.mean(accuracy_data[1]), np.std(accuracy_data[1]) / np.sqrt(len(accuracy_data[1]))))
+			print("accuracy for {} = {}, sem = {}".format(agents[2], np.mean(accuracy_data[2]), np.std(accuracy_data[2]) / np.sqrt(len(accuracy_data[2]))))
+		
+
+	
 
 		
 			
 		plt.legend(loc="upper left", frameon=False)
 		plt.xlabel("Trial")
-		plt.ylabel("Accumulated regret")
-		plt.title("Averaged accumulated regret over {} trials".format(max_trial))
+		plt.ylabel("Accuracy")
+		plt.title("Accuracy over {} trials".format(max_trial))
 		sns.despine()
 		plt.savefig("fig/experiment{}_accuracy_box.pdf".format(num), transparent = True)
 		plt.close()
@@ -2665,106 +2773,151 @@ def plot(num):
 			lose_switch_data.append(lose_switch)
 			lose_stay_data.append(lose_stay)
 
+		if num == 7:
+			res = scipy.stats.shapiro(win_switch_data[0])
+			print("The p value of shapiro test on the win switch rate of {} in probability reversal task is {}".format(agents[0], res.pvalue))
+	
+			res = scipy.stats.shapiro(win_switch_data[1])
+			print("The p value of shapiro test on the win switch rate of {} in probability reversal task is {}".format(agents[1], res.pvalue))
+	
+			z, p = scipy.stats.mannwhitneyu(win_switch_data[0], win_switch_data[1])
+			print("The p value of two-way rank sum test on the win switch rate in a probability reversal task is {}".format(p))
+			print("win switch rate for {} = {}, sem = {}".format(agents[0], np.mean(win_switch_data[0]), np.std(win_switch_data[0]) / np.sqrt(len(win_switch_data[0]))))
+			print("win switch rate for {} = {}, sem = {}".format(agents[1], np.mean(win_switch_data[1]), np.std(win_switch_data[1]) / np.sqrt(len(win_switch_data[1]))))
+		
+
 		if num == 9:
 			res = scipy.stats.shapiro(win_switch_data[0])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the win switch rate of {} in probability reversal task is {}".format(agents[0], res.pvalue))
+	
 			res = scipy.stats.shapiro(win_switch_data[1])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the win switch rate of {} in probability reversal task is {}".format(agents[1], res.pvalue))
+	
 			res = scipy.stats.shapiro(win_switch_data[2])
-			print("shapiro",res.pvalue)
-			z, p = scipy.stats.kruskal(win_switch_data[0],win_switch_data[1], win_switch_data[2])
-			print("kruskal wallis p value is {} for win switch".format(p))
-			
+			print("The p value of shapiro test on the win switch rate of {} in probability reversal task is {}".format(agents[2], res.pvalue))
+	
+			z, p = scipy.stats.kruskal(win_switch_data[0], win_switch_data[1], win_switch_data[2])
+			print("The p value of Kruskal Wallis test on the win switch rate in a probability reversal task is {}".format(p))
+		
+		
 			p = sp.posthoc_dunn(win_switch_data, p_adjust='bonferroni')
+			print("The p value of posthoc dunn test with bonferroni correction on the win switch rate is detailed in the following matrix:")
+			print("1 represents {}, 2 represents {}, 3 represents".format(agents[0], agents[1], agents[2]))
 			print(p)
-			print("win switch for {} = {}, sem = {}".format(agents[2], np.mean(win_switch_data[2]), np.std(win_switch_data[2]) / np.sqrt(len(win_switch_data[2]))))
+
+			print("win switch rate for {} = {}, sem = {}".format(agents[0], np.mean(win_switch_data[0]), np.std(win_switch_data[0]) / np.sqrt(len(win_switch_data[0]))))
+			print("win switch rate for {} = {}, sem = {}".format(agents[1], np.mean(win_switch_data[1]), np.std(win_switch_data[1]) / np.sqrt(len(win_switch_data[1]))))
+			print("win switch rate for {} = {}, sem = {}".format(agents[2], np.mean(win_switch_data[2]), np.std(win_switch_data[2]) / np.sqrt(len(win_switch_data[2]))))
+		
+
 		if num == 7:
-			res = scipy.stats.shapiro(win_switch_data[0])
-			print("shapiro",res.pvalue)
-			res = scipy.stats.shapiro(win_switch_data[1])
-			print("shapiro",res.pvalue)
-			z, p = scipy.stats.mannwhitneyu(win_switch_data[0],win_switch_data[1])
-
-			print("Rank sum p value is {} for win switch".format(p))
-
-		print("win switch for {} = {}, sem = {}".format(agents[0], np.mean(win_switch_data[0]), np.std(win_switch_data[0]) / np.sqrt(len(win_switch_data[0]))))
-		print("win switch for {} = {}, sem = {}".format(agents[1],  np.mean(win_switch_data[1]), np.std(win_switch_data[1]) / np.sqrt(len(win_switch_data[1]))))
+			res = scipy.stats.shapiro(win_stay_data[0])
+			print("The p value of shapiro test on the win stay rate of {} in probability reversal task is {}".format(agents[0], res.pvalue))
+	
+			res = scipy.stats.shapiro(win_stay_data[1])
+			print("The p value of shapiro test on the win stay rate of {} in probability reversal task is {}".format(agents[1], res.pvalue))
+	
+			z, p = scipy.stats.mannwhitneyu(win_stay_data[0], win_stay_data[1])
+			print("The p value of two-way rank sum test on the win stay rate in a probability reversal task is {}".format(p))
+			print("win stay rate for {} = {}, sem = {}".format(agents[0], np.mean(win_stay_data[0]), np.std(win_stay_data[0]) / np.sqrt(len(win_stay_data[0]))))
+			print("win stay rate for {} = {}, sem = {}".format(agents[1], np.mean(win_stay_data[1]), np.std(win_stay_data[1]) / np.sqrt(len(win_stay_data[1]))))
+		
 
 		if num == 9:
 			res = scipy.stats.shapiro(win_stay_data[0])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the win stay rate of {} in probability reversal task is {}".format(agents[0], res.pvalue))
+	
 			res = scipy.stats.shapiro(win_stay_data[1])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the win stay rate of {} in probability reversal task is {}".format(agents[1], res.pvalue))
+	
 			res = scipy.stats.shapiro(win_stay_data[2])
-			print("shapiro",res.pvalue)
-			z, p = scipy.stats.kruskal(win_stay_data[0],win_stay_data[1], win_stay_data[2])
-			print("kruskal wallis p value is {} for win stay".format(p))
-			
+			print("The p value of shapiro test on the win stay rate of {} in probability reversal task is {}".format(agents[2], res.pvalue))
+	
+			z, p = scipy.stats.kruskal(win_stay_data[0], win_stay_data[1], win_stay_data[2])
+			print("The p value of Kruskal Wallis test on the win stay rate in a probability reversal task is {}".format(p))
+		 
+		
 			p = sp.posthoc_dunn(win_stay_data, p_adjust='bonferroni')
+			print("The p value of posthoc dunn test with bonferroni correction on the win switch rate is detailed in the following matrix:")
+			print("1 represents {}, 2 represents {}, 3 represents".format(agents[0], agents[1], agents[2]))
 			print(p)
-			print("win stay for {} = {}, sem = {}".format(agents[2], np.mean(win_stay_data[2]), np.std(win_stay_data[2]) / np.sqrt(len(win_stay_data[2]))))
+
+			print("win stay rate for {} = {}, sem = {}".format(agents[0], np.mean(win_stay_data[0]), np.std(win_stay_data[0]) / np.sqrt(len(win_stay_data[0]))))
+			print("win stay rate for {} = {}, sem = {}".format(agents[1], np.mean(win_stay_data[1]), np.std(win_stay_data[1]) / np.sqrt(len(win_stay_data[1]))))
+			print("win stay rate for {} = {}, sem = {}".format(agents[2], np.mean(win_stay_data[2]), np.std(win_stay_data[2]) / np.sqrt(len(win_stay_data[2]))))
+		
 		if num == 7:
-			res = scipy.stats.shapiro(win_stay_data[0])
-			print("shapiro",res.pvalue)
-			res = scipy.stats.shapiro(win_stay_data[1])
-			print("shapiro",res.pvalue)
-			z, p = scipy.stats.mannwhitneyu(win_stay_data[0],win_stay_data[1])
-
-			print("Rank sum p value is {} for win stay".format(p))
-
-		print("win stay for {} = {}, sem = {}".format(agents[0], np.mean(win_stay_data[0]), np.std(win_stay_data[0]) / np.sqrt(len(win_stay_data[0]))))
-		print("win stay for {} = {}, sem = {}".format(agents[1],  np.mean(win_stay_data[1]), np.std(win_stay_data[1]) / np.sqrt(len(win_stay_data[1]))))
+			res = scipy.stats.shapiro(lose_switch_data[0])
+			print("The p value of shapiro test on the lose switch rate of {} in probability reversal task is {}".format(agents[0], res.pvalue))
+	
+			res = scipy.stats.shapiro(lose_switch_data[1])
+			print("The p value of shapiro test on the lose switch rate of {} in probability reversal task is {}".format(agents[1], res.pvalue))
+	
+			z, p = scipy.stats.mannwhitneyu(lose_switch_data[0], lose_switch_data[1])
+			print("The p value of two-way rank sum test on the lose switch rate in a probability reversal task is {}".format(p))
+			print("lose switch rate for {} = {}, sem = {}".format(agents[0], np.mean(lose_switch_data[0]), np.std(lose_switch_data[0]) / np.sqrt(len(lose_switch_data[0]))))
+			print("lose switch rate for {} = {}, sem = {}".format(agents[1], np.mean(lose_switch_data[1]), np.std(lose_switch_data[1]) / np.sqrt(len(lose_switch_data[1]))))
+		
 
 		if num == 9:
 			res = scipy.stats.shapiro(lose_switch_data[0])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the lose switch rate of {} in probability reversal task is {}".format(agents[0], res.pvalue))
+	
 			res = scipy.stats.shapiro(lose_switch_data[1])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the lose switch rate of {} in probability reversal task is {}".format(agents[1], res.pvalue))
+	
 			res = scipy.stats.shapiro(lose_switch_data[2])
-			print("shapiro",res.pvalue)
-			z, p = scipy.stats.kruskal(lose_switch_data[0],lose_switch_data[1], lose_switch_data[2])
-			print("kruskal wallis p value is {} for lose switch".format(p))
-			
+			print("The p value of shapiro test on the lose switch rate of {} in probability reversal task is {}".format(agents[2], res.pvalue))
+	
+			z, p = scipy.stats.kruskal(lose_switch_data[0], lose_switch_data[1], lose_switch_data[2])
+			print("The p value of Kruskal Wallis test on the lose switch rate in a probability reversal task is {}".format(p))
+		 
+		
 			p = sp.posthoc_dunn(lose_switch_data, p_adjust='bonferroni')
+			print("The p value of posthoc dunn test with bonferroni correction on the lose switch rate is detailed in the following matrix:")
+			print("1 represents {}, 2 represents {}, 3 represents".format(agents[0], agents[1], agents[2]))
 			print(p)
-			print("lose switch for {} = {}, sem = {}".format(agents[2], np.mean(lose_switch_data[2]), np.std(lose_switch_data[2]) / np.sqrt(len(lose_switch_data[2]))))
+
+			print("lose switch rate for {} = {}, sem = {}".format(agents[0], np.mean(lose_switch_data[0]), np.std(lose_switch_data[0]) / np.sqrt(len(lose_switch_data[0]))))
+			print("lose switch rate for {} = {}, sem = {}".format(agents[1], np.mean(lose_switch_data[1]), np.std(lose_switch_data[1]) / np.sqrt(len(lose_switch_data[1]))))
+			print("lose switch rate for {} = {}, sem = {}".format(agents[2], np.mean(lose_switch_data[2]), np.std(lose_switch_data[2]) / np.sqrt(len(lose_switch_data[2]))))
+		
 		if num == 7:
-			res = scipy.stats.shapiro(lose_switch_data[0])
-			print("shapiro",res.pvalue)
-			res = scipy.stats.shapiro(lose_switch_data[1])
-			print("shapiro",res.pvalue)
-			z, p = scipy.stats.mannwhitneyu(lose_switch_data[0],lose_switch_data[1])
-
-			print("Rank sum p value is {} for lose switch".format(p))
-
-		print("lose switch for {} = {}, sem = {}".format(agents[0], np.mean(lose_switch_data[0]), np.std(lose_switch_data[0]) / np.sqrt(len(lose_switch_data[0]))))
-		print("lose switch for {} = {}, sem = {}".format(agents[1],  np.mean(lose_switch_data[1]), np.std(lose_switch_data[1]) / np.sqrt(len(lose_switch_data[1]))))
+			res = scipy.stats.shapiro(lose_stay_data[0])
+			print("The p value of shapiro test on the lose stay rate of {} in probability reversal task is {}".format(agents[0], res.pvalue))
+	
+			res = scipy.stats.shapiro(lose_stay_data[1])
+			print("The p value of shapiro test on the lose stay rate of {} in probability reversal task is {}".format(agents[1], res.pvalue))
+	
+			z, p = scipy.stats.mannwhitneyu(lose_stay_data[0], lose_stay_data[1])
+			print("The p value of two-way rank sum test on the lose stay rate in a probability reversal task is {}".format(p))
+			print("lose stay rate for {} = {}, sem = {}".format(agents[0], np.mean(lose_stay_data[0]), np.std(lose_stay_data[0]) / np.sqrt(len(lose_stay_data[0]))))
+			print("lose stay rate for {} = {}, sem = {}".format(agents[1], np.mean(lose_stay_data[1]), np.std(lose_stay_data[1]) / np.sqrt(len(lose_stay_data[1]))))
+		
 
 		if num == 9:
 			res = scipy.stats.shapiro(lose_stay_data[0])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the lose stay rate of {} in probability reversal task is {}".format(agents[0], res.pvalue))
+	
 			res = scipy.stats.shapiro(lose_stay_data[1])
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the lose stay rate of {} in probability reversal task is {}".format(agents[1], res.pvalue))
+	
 			res = scipy.stats.shapiro(lose_stay_data[2])
-			print("shapiro",res.pvalue)
-			z, p = scipy.stats.kruskal(lose_stay_data[0],lose_stay_data[1], lose_stay_data[2])
-			print("kruskal wallis p value is {} for lose stay".format(p))
-			
+			print("The p value of shapiro test on the lose stay rate of {} in probability reversal task is {}".format(agents[2], res.pvalue))
+	
+			z, p = scipy.stats.kruskal(lose_stay_data[0], lose_stay_data[1], lose_stay_data[2])
+			print("The p value of Kruskal Wallis test on the lose stay rate in a probability reversal task is {}".format(p))
+		 
+		
 			p = sp.posthoc_dunn(lose_stay_data, p_adjust='bonferroni')
+			print("The p value of posthoc dunn test with bonferroni correction on the lose stay rate is detailed in the following matrix:")
+			print("1 represents {}, 2 represents {}, 3 represents".format(agents[0], agents[1], agents[2]))
 			print(p)
-			print("lose stay for {} = {}, sem = {}".format(agents[2], np.mean(lose_stay_data[2]), np.std(lose_stay_data[2]) / np.sqrt(len(lose_stay_data[2]))))
-		if num == 7:
-			res = scipy.stats.shapiro(lose_stay_data[0])
-			print("shapiro",res.pvalue)
-			res = scipy.stats.shapiro(lose_stay_data[1])
-			print("shapiro",res.pvalue)
-			z, p = scipy.stats.mannwhitneyu(lose_stay_data[0],lose_stay_data[1])
 
-			print("Rank sum p value is {} for lose stay".format(p))
-
-		print("lose stay for {} = {}, sem = {}".format(agents[0], np.mean(lose_stay_data[0]), np.std(lose_stay_data[0]) / np.sqrt(len(lose_stay_data[0]))))
-		print("lose stay for {} = {}, sem = {}".format(agents[1],  np.mean(lose_stay_data[1]), np.std(lose_stay_data[1]) / np.sqrt(len(lose_stay_data[1]))))
-
+			print("lose stay rate for {} = {}, sem = {}".format(agents[0], np.mean(lose_stay_data[0]), np.std(lose_stay_data[0]) / np.sqrt(len(lose_stay_data[0]))))
+			print("lose stay rate for {} = {}, sem = {}".format(agents[1], np.mean(lose_stay_data[1]), np.std(lose_stay_data[1]) / np.sqrt(len(lose_stay_data[1]))))
+			print("lose stay rate for {} = {}, sem = {}".format(agents[2], np.mean(lose_stay_data[2]), np.std(lose_stay_data[2]) / np.sqrt(len(lose_stay_data[2]))))
+		
 		
 
 		ratio = 0.8
@@ -2927,10 +3080,11 @@ def plot(num):
 			print(x.shape)
 			print(smooth_switch_data[a].shape)
 			res = scipy.stats.shapiro(smooth_switch_data[a].flatten())
-			print("shapiro",res.pvalue)
+			print("The p value of shapiro test on the switch time of {} in probability reversal task is {}".format(agents[i], res.pvalue))
+	
 			res = scipy.stats.permutation_test((x.flatten(), smooth_switch_data[a].flatten()), lambda x, y: scipy.stats.spearmanr(x, y).statistic, n_resamples=100000)
-			print("{}: {}, {}".format(a, res.statistic, res.pvalue))
-		
+			print("The spearman r coefficient of {}'s switch time is {} with p value {} in 10^6 resamples permutation test".format(agents[i], res.statistic, res.pvalue))
+			
 		
 		# plt.legend(loc="upper right",  frameon = False)
 		plt.xlabel("Block")
@@ -2955,30 +3109,49 @@ def plot(num):
                      vert=True,  # vertical box alignment
                      labels=label_data)  # will be used to label x-ticks
 		
+		
+
 		if num == 7:
+			res = scipy.stats.shapiro(switch_data[0])
+			print("The p value of shapiro test on the switch time of {} in probability reversal task is {}".format(agents[0], res.pvalue))
+	
+			res = scipy.stats.shapiro(switch_data[1])
+			print("The p value of shapiro test on the switch time of {} in probability reversal task is {}".format(agents[1], res.pvalue))
+	
 			z, p = scipy.stats.mannwhitneyu(switch_data[0], switch_data[1])
-			print("rank sum p value is {} for switch".format(p))
+			print("The p value of two-way rank sum test on the switch time in a probability reversal task is {}".format(p))
+			print("switch time for {} = {}, sem = {}".format(agents[0], np.mean(switch_data[0]), np.std(switch_data[0]) / np.sqrt(len(switch_data[0]))))
+			print("switch time for {} = {}, sem = {}".format(agents[1], np.mean(switch_data[1]), np.std(switch_data[1]) / np.sqrt(len(switch_data[1]))))
+		
+
 		if num == 9:
+			res = scipy.stats.shapiro(switch_data[0])
+			print("The p value of shapiro test on the switch time of {} in probability reversal task is {}".format(agents[0], res.pvalue))
+	
+			res = scipy.stats.shapiro(switch_data[1])
+			print("The p value of shapiro test on the switch time of {} in probability reversal task is {}".format(agents[1], res.pvalue))
+	
+			res = scipy.stats.shapiro(switch_data[2])
+			print("The p value of shapiro test on the switch time of {} in probability reversal task is {}".format(agents[2], res.pvalue))
+	
 			z, p = scipy.stats.kruskal(switch_data[0], switch_data[1], switch_data[2])
-			print("kruskal wallis p value is {} for switch".format(p))
+			print("The p value of Kruskal Wallis test on the switch time in a probability reversal task is {}".format(p))
+		 
 		
 			p = sp.posthoc_dunn(switch_data, p_adjust='bonferroni')
+			print("The p value of posthoc dunn test with bonferroni correction on the switch time is detailed in the following matrix:")
+			print("1 represents {}, 2 represents {}, 3 represents".format(agents[0], agents[1], agents[2]))
 			print(p)
 
-			print("switch for {} = {}, sem = {}".format(agents[2], np.mean(switch_data[2]), np.std(switch_data[2]) / np.sqrt(len(switch_data[2]))))
+			print("switch time for {} = {}, sem = {}".format(agents[0], np.mean(switch_data[0]), np.std(switch_data[0]) / np.sqrt(len(switch_data[0]))))
+			print("switch time for {} = {}, sem = {}".format(agents[1], np.mean(switch_data[1]), np.std(switch_data[1]) / np.sqrt(len(switch_data[1]))))
+			print("switch time for {} = {}, sem = {}".format(agents[2], np.mean(switch_data[2]), np.std(switch_data[2]) / np.sqrt(len(switch_data[2]))))
 		
-
-
-		print("switch for {} = {}, sem = {}".format(agents[0], np.mean(switch_data[0]), np.std(switch_data[0]) / np.sqrt(len(switch_data[0]))))
-		print("switch for {} = {}, sem = {}".format(agents[1],  np.mean(switch_data[1]), np.std(switch_data[1]) / np.sqrt(len(switch_data[1]))))
-
-	
-
 			
 		plt.legend(loc="upper left", frameon=False)
 		plt.xlabel("Trial")
-		plt.ylabel("Accumulated regret")
-		plt.title("Averaged accumulated regret over {} trials".format(max_trial))
+		plt.ylabel("Switching time")
+		plt.title("Switching time")
 		sns.despine()
 		plt.savefig("fig/experiment{}_switch_box.pdf".format(num), transparent = True)
 		plt.close()

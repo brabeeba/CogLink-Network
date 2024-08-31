@@ -208,8 +208,15 @@ def experiment9(opt):
 	experiment = PlotExperiment(opt)
 	return experiment, agent, task, writer
 
-
-
+def experiment10(opt):
+	#Figure 5, 6 DEMO
+	opt = model_parameter(opt, opt['experiment_num'])
+	writer = SummaryWriter(opt['tensorboard'])
+	agent = [TwoTimeScaleNeuralAgent(opt), ThompsonDCAgent(opt, name = "Discounted Thompson Sampling")]
+	task = DynamicBandit(opt)
+	task.setprob(np.array([[[0.7, 0.3]], [[0.3, 0.7]]]))
+	experiment = PlotExperiment(opt)
+	return experiment, agent, task, writer
 
 
 
@@ -305,6 +312,34 @@ def model_parameter(opt, model_num):
 		new_opt["rescue"] = False
 		new_opt["quantile_num"] = 100
 		new_opt["N"] = 50
+		new_opt["K"] = 3
+		new_opt["a"] = 1
+		new_opt["b"] = 1
+		new_opt["a1"] = 0.75
+		new_opt["b1"] = 1
+		new_opt["a2"] = 1
+		new_opt["b2"] = 1
+		new_opt["tau1"] = 10
+		new_opt["eta"] = 0.5
+		new_opt["threshold"] = 0.8
+		new_opt["d_interval"] = 1000
+
+	if model_num == 10:
+		new_opt["gamma1"] = 0.99
+		new_opt["gamma2"] = 0.8
+		new_opt["lr"] = 0.1
+		new_opt["temperature"] = 30
+		new_opt["tau"] = 2
+		new_opt["a"] =  1
+		new_opt["gamma"] = 0.93
+		new_opt["iter"] = 40
+		new_opt["learning"] = True
+		new_opt["nonlinear"] = True
+		new_opt["inhibit"] = False
+		new_opt["d2"] = False
+		new_opt["rescue"] = False
+		new_opt["quantile_num"] = 100
+		new_opt["N"] = 5
 		new_opt["K"] = 3
 		new_opt["a"] = 1
 		new_opt["b"] = 1
