@@ -64,4 +64,6 @@ The process takes about 15 minutes to generate all the data. The data will be sa
 To do the analysis and plot the corresponding figures, one can do
 >python plot.py --experiment_num 10
 
+You will expect to see comparison between two models in different metrics and observe that thalamocortical CogLink model has lower regret, higher accuracy, faster switching time, and learns to switch faster. 
+
 
