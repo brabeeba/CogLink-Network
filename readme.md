@@ -1,5 +1,5 @@
 # Code for "Revealing how uncertainty computations drive hierarchical reasoning via CogLink Networks"
-DOI: 10.5281/zenodo.13152289
+DOI: 10.5281/zenodo.13621755
 
 ## Installation
 The code has been tested on python 3.8.2. It is highly recommended to use virtual environment to install the package. 
