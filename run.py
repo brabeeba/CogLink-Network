@@ -1,6 +1,21 @@
-import os
-os.system("python train.py --experiment_num 36")
-os.system("python train.py --experiment_num 37")
+# import os
+# os.system("python train.py --experiment_num 36")
+# os.system("python train.py --experiment_num 37")
+
+
+
+
+
+
+# from model import *
+
+# opt = {}
+# opt["stimuli_num"] =1
+# opt["class_num"] = 3
+# opt["max_trial"] = 10
+# agent = GittinsIndex(opt)
+#dx1/dt = -x1 + x_2 + 1
+#dx2/dt = -x2 + x_1 + 1
 
 # import numpy as np
 # from scipy.stats import beta

@@ -61,10 +61,11 @@ if __name__ == '__main__':
 		torch.cuda.set_device(opt['gpu'])
 
 	# Set random state
-	#random.seed(opt['random_seed'])
-	#np.random.seed(opt['random_seed'])
-	#torch.manual_seed(opt['random_seed'])
-	#if opt['cuda']:
-	#	torch.cuda.manual_seed(opt['random_seed'])
+	random.seed(opt['random_seed'])
+	np.random.seed(opt['random_seed'])
+	torch.manual_seed(opt['random_seed'])
+	if opt['cuda']:
+		torch.cuda.manual_seed(opt['random_seed'])
+	np.set_printoptions(formatter={'float': lambda x: "{0:0.3f}".format(x)})
 
 	main(opt)
