@@ -50,7 +50,7 @@ Depending on the experiment, this can take upto hours. If one would like, they c
 One can analyze the data of experiment i and generate the corresponding figures by running
 >python plot.py --experiment_num i
 
-In particular, Experiment 1, 2 generates figure 2, S2. Experiment 3, 4 generates figure 3, S3. Experiment 5 generates figure 4, S4. Experiment 6 generates figure 5, 6, S6. Experiment 7 generates figure 7. Experiment 8 generates figure 7i, S7. Experiment 9 generates figure 8, S8. Experiment 10 is a demo experiment consists of only 5 runs and it is the same experiment as experiment 6.
+In particular, Experiment 1 generates Figure 2b, S1a, S1c. Experiment 2 generates Figure 2c, S1b, S1c. Experiment 3, 4 generates previous lesion experiments but currently abolished from the paper. Experiment 5 generates figure Figure S3. Experiment 6 generates previous figures on augmented CogLink vs discounted thompson sampling. Also abolished in the current paper. Experiment 7 generates figure 6. Experiment 8 generates figure 6i, S6. Experiment 9 generates figure 7, S7. Experiment 11, 15 generate Figure S2d. Experiment 12 generates Figure 2i. Exepriment 13 generates Figure 4f, 4k. Experiment 14 generates Figure 4, 5. Experiment 16 generates Figure S2b. Experiment 17 generates Figure 5i. Experiment 10 is a demo experiment consists of only 5 runs and it is the same experiment as experiment 6.
 
 To generate figure 5m, one can run
 >python cumsum_run.py
